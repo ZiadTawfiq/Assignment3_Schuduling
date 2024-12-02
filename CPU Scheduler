@@ -32,7 +32,7 @@ public class CPUScheduler {
   public void priorityScheduler(List<Process> processesList, int contextSwitchTime) {
         
         processesList.sort(Comparator.comparingInt((Process p) -> p.arrivalTime)
-                .thenComparingInt(p -> p.priority));
+                .thenComparingInt(p -> p.PriorityNum));
 
         int currentTime = 0;
         List<Process> executedProcesses = new ArrayList<>();
@@ -42,7 +42,7 @@ public class CPUScheduler {
 
             for (Process p : processesList) {
                 if (p.arrivalTime <= currentTime) {// if the process arrived
-                    if (selectedProcess == null || p.priority < selectedProcess.priority) {
+                    if (selectedProcess == null || p.PriorityNum < selectedProcess.PriorityNum) {
                         selectedProcess = p;
                     }
                 }
@@ -50,7 +50,7 @@ public class CPUScheduler {
 
             if (selectedProcess != null) {
                 selectedProcess.waitingTime = currentTime - selectedProcess.arrivalTime;
-                currentTime += selectedProcess.burstTime;
+                currentTime += selectedProcess.BurstTime;
                 selectedProcess.turnaroundTime = currentTime - selectedProcess.arrivalTime;
 
                 executedProcesses.add(selectedProcess);
@@ -65,8 +65,8 @@ public class CPUScheduler {
 
         double totalWaitingTime = 0, totalTurnAroundTime = 0;
         for (Process p : executedProcesses) {
-            System.out.println("Process "+p.processName + "\t" + "Arrival Time = "+ p.arrivalTime + "\t" +"Brust Time = "+ p.burstTime + "\t" +
-                   "Priority = "+ p.priority + "\t" +"Waiting Time = "+ p.waitingTime + "\t" + "TurnAround Time = " +p.turnaroundTime);
+            System.out.println("Process "+p.processName + "\t" + "Arrival Time = "+ p.arrivalTime + "\t" +"Brust Time = "+ p.BurstTime + "\t" +
+                   "Priority = "+ p.PriorityNum + "\t" +"Waiting Time = "+ p.waitingTime + "\t" + "TurnAround Time = " +p.turnaroundTime);
             totalWaitingTime += p.waitingTime;
             totalTurnAroundTime += p.turnaroundTime;
         }
