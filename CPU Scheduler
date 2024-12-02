@@ -1,0 +1,9 @@
+public class CPUScheduler {
+
+    public void SJF(int numProcess){
+         while (numProcess--){
+
+         }
+    }
+
+}
