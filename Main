@@ -16,14 +16,14 @@ public class Main {
             List<Process> processList = new ArrayList<>();
             for (int i = 1; i <= n; i++) {
                 System.out.println("Enter details for Process " + i + ":");
+                System.out.println("Enter Process Name");
+                String ProcessName = scanner.next() ;                
                 System.out.print("Arrival Time: ");
                 int arrivalTime = scanner.nextInt();
                 System.out.print("Burst Time: ");
                 int BurstTime = scanner.nextInt();
                 System.out.print("Priority: ");
                 int Priority = scanner.nextInt();
-                System.out.println("Enter Process Name");
-                String ProcessName = scanner.next() ;
                 Process process = new Process(ProcessName  , arrivalTime ,BurstTime, Priority) ;
                 processList.add(process) ;
 
