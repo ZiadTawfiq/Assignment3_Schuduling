@@ -1,20 +1,21 @@
+
 public class Process {
     String processName ;
-    String processColor ;
     int arrivalTime ;
     int BurstTime ;
     int PriorityNum;
-    public Process(String processName  , String processColor , int arrivalTime , int burstTime , int priorityNum){
+    public Process(String processName  , int arrivalTime , int burstTime , int priorityNum){
         this.processName = processName ;
-        this.processColor = processColor ;
         this.arrivalTime = arrivalTime ;
         this.BurstTime = burstTime ;
         this.PriorityNum = priorityNum ;
 
     }
-    public Process (String processName , String processColor , int BurstTime){
-        this.processName = processName ;
-        this.processColor = processColor ;
-        this.BurstTime = BurstTime ;
+
+    @Override
+    public String toString(){
+        return "{ Process Name : "+processName + " ,"+
+                "BurstTime : "+BurstTime ;
+
     }
 }
