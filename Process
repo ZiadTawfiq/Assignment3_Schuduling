@@ -4,6 +4,8 @@ public class Process {
     int arrivalTime ;
     int BurstTime ;
     int PriorityNum;
+    int waitingTime = 0;
+    int turnaroundTime = 0;
     public Process(String processName  , int arrivalTime , int burstTime , int priorityNum){
         this.processName = processName ;
         this.arrivalTime = arrivalTime ;
