@@ -29,6 +29,59 @@ public class CPUScheduler {
     }
 
 
+  public void priorityScheduler(List<Process> processesList, int contextSwitchTime) {
+        
+        processesList.sort(Comparator.comparingInt((Process p) -> p.arrivalTime)
+                .thenComparingInt(p -> p.priority));
+
+        int currentTime = 0;
+        List<Process> executedProcesses = new ArrayList<>();
+
+        while (!processesList.isEmpty()) {
+            Process selectedProcess = null;
+
+            for (Process p : processesList) {
+                if (p.arrivalTime <= currentTime) {// if the process arrived
+                    if (selectedProcess == null || p.priority < selectedProcess.priority) {
+                        selectedProcess = p;
+                    }
+                }
+            }
+
+            if (selectedProcess != null) {
+                selectedProcess.waitingTime = currentTime - selectedProcess.arrivalTime;
+                currentTime += selectedProcess.burstTime;
+                selectedProcess.turnaroundTime = currentTime - selectedProcess.arrivalTime;
+
+                executedProcesses.add(selectedProcess);
+                processesList.remove(selectedProcess);
+
+                currentTime += contextSwitchTime;
+            } else {
+                currentTime++;
+            }
+        }
+
+
+        double totalWaitingTime = 0, totalTurnAroundTime = 0;
+        for (Process p : executedProcesses) {
+            System.out.println("Process "+p.processName + "\t" + "Arrival Time = "+ p.arrivalTime + "\t" +"Brust Time = "+ p.burstTime + "\t" +
+                   "Priority = "+ p.priority + "\t" +"Waiting Time = "+ p.waitingTime + "\t" + "TurnAround Time = " +p.turnaroundTime);
+            totalWaitingTime += p.waitingTime;
+            totalTurnAroundTime += p.turnaroundTime;
+        }
+
+        // Calculate and print averages
+        double averagWaitingTime = totalWaitingTime / executedProcesses.size();
+        double averageTurnAroundTime = totalTurnAroundTime / executedProcesses.size();
+
+        System.out.println("\nAverage Waiting Time: " + averagWaitingTime);
+        System.out.println("Average Turnaround Time: " + averageTurnAroundTime);
+
+   
+    }
+
+
 
 
 }
