@@ -3,34 +3,42 @@ import java.util.*;
 public class CPUScheduler {
 
     public void SJF(List<Process>ProcessList){
-        List<Process>processList= ProcessList ;
-        Scanner scanner = new Scanner(System.in);
 
+        int currentTime = 0;
+        int totalTurnaroundTime = 0;
+        int totalWaitingTime = 0 ;
 
-       int WaitingTime = 0;
-       double AvgWaitingTime;
-       int counter = 0;
-       int sum = 0 ;
-       processList.sort(Comparator.comparingInt( p -> p.BurstTime));
-       for (Process process : processList){
-           System.out.println(process);
-           if (counter != 0) {
+        ProcessList.sort(Comparator.comparingInt(p -> p.BurstTime));
 
-               sum+= process.BurstTime;
-               System.out.println(", WaitingTime : " + sum);
+        System.out.println("Schedule:");
 
+        for (Process process : ProcessList) {
+            if (currentTime < process.arrivalTime) {
+                currentTime = process.arrivalTime;
+            }
 
-           }
-           else {
-               System.out.println(", WaitingTime : " + WaitingTime);
-           }
-           counter++ ;
-       }
+            process.waitingTime = currentTime - process.arrivalTime;
+            totalWaitingTime += process.waitingTime;
+
+            currentTime += process.BurstTime;
+            process.turnaroundTime = currentTime - process.arrivalTime;
+            totalTurnaroundTime += process.turnaroundTime;
+
+            System.out.println(process + ", WaitingTime: " + process.waitingTime + ", Turnaround Time: " + process.turnaroundTime + '}');
+        }
+
+        int numProcesses = ProcessList.size();
+        double avgWaitingTime = (double) totalWaitingTime / numProcesses;
+        double avgTurnaroundTime = (double) totalTurnaroundTime / numProcesses;
+
+        System.out.println("Avg Waiting Time: " + avgWaitingTime);
+        System.out.println("Avg Turnaround Time: " + avgTurnaroundTime);
     }
 
 
-  public void priorityScheduler(List<Process> processesList, int contextSwitchTime) {
-        
+
+    public void priorityScheduler(List<Process> processesList, int contextSwitchTime) {
+
         processesList.sort(Comparator.comparingInt((Process p) -> p.arrivalTime)
                 .thenComparingInt(p -> p.PriorityNum));
 
@@ -66,7 +74,7 @@ public class CPUScheduler {
         double totalWaitingTime = 0, totalTurnAroundTime = 0;
         for (Process p : executedProcesses) {
             System.out.println("Process "+p.processName + "\t" + "Arrival Time = "+ p.arrivalTime + "\t" +"Brust Time = "+ p.BurstTime + "\t" +
-                   "Priority = "+ p.PriorityNum + "\t" +"Waiting Time = "+ p.waitingTime + "\t" + "TurnAround Time = " +p.turnaroundTime);
+                    "Priority = "+ p.PriorityNum + "\t" +"Waiting Time = "+ p.waitingTime + "\t" + "TurnAround Time = " +p.turnaroundTime);
             totalWaitingTime += p.waitingTime;
             totalTurnAroundTime += p.turnaroundTime;
         }
@@ -78,7 +86,7 @@ public class CPUScheduler {
         System.out.println("\nAverage Waiting Time: " + averagWaitingTime);
         System.out.println("Average Turnaround Time: " + averageTurnAroundTime);
 
-   
+
     }
 
 
