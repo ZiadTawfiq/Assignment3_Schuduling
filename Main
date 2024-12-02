@@ -24,6 +24,7 @@ public class Main {
                 int BurstTime = scanner.nextInt();
                 System.out.print("Priority: ");
                 int Priority = scanner.nextInt();
+                System.out.print("---------------------------\n");
                 Process process = new Process(ProcessName  , arrivalTime ,BurstTime, Priority) ;
                 processList.add(process) ;
 
