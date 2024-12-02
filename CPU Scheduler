@@ -1,9 +1,51 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Scanner;
+
 public class CPUScheduler {
 
-    public void SJF(int numProcess){
-         while (numProcess--){
 
-         }
+    public void SJF(){
+       Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter The  # of process : ");
+
+        int numProcess = scanner.nextInt() ;
+       ArrayList<Process>processList = new ArrayList<>() ;
+       while (numProcess!=0){
+           System.out.println("Enter Process Name : ");
+           String processName = scanner.next() ;
+           System.out.println("Enter Process Color : ");
+           String ProcessColor = scanner.next() ;
+           System.out.println("Enter Process BurstTime : ");
+           int BurstTime = scanner.nextInt() ;
+
+           Process process = new Process(processName ,ProcessColor , BurstTime) ;
+           processList.add(process) ;
+           numProcess-- ;
+       }
+       int WaitingTime = 0;
+       double AvgWaitingTime;
+       int counter = 0;
+       int sum = 0 ;
+       processList.sort(Comparator.comparingInt( p -> p.BurstTime));
+       for (Process process : processList){
+           System.out.println(process);
+           if (counter != 0) {
+
+               sum+= process.BurstTime;
+               System.out.println(", WaitingTime : " + WaitingTime);
+
+
+           }
+           else {
+               System.out.println(", WaitingTime : " + WaitingTime);
+           }
+           counter++ ;
+       }
     }
+
+
+
 
 }
