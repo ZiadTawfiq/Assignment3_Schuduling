@@ -79,7 +79,6 @@ public class CPUScheduler {
             totalTurnAroundTime += p.turnaroundTime;
         }
 
-        // Calculate and print averages
         double averagWaitingTime = totalWaitingTime / executedProcesses.size();
         double averageTurnAroundTime = totalTurnAroundTime / executedProcesses.size();
 
@@ -88,7 +87,6 @@ public class CPUScheduler {
 
 
     }
-        // Calculate V1
     public double calculateV1(List<Process> processesList) {
         int maxArrivalTime = processesList.stream()
                 .mapToInt(p -> p.arrivalTime)
@@ -106,7 +104,6 @@ public class CPUScheduler {
         return (double) maxBurstTime / 10;
     }
 
-    // FCAI Scheduler
     
     public void FCAIScheduler(List<Process> processesList, int contextSwitchTime) {
          System.out.println("--------------------------------");
@@ -117,21 +114,17 @@ public class CPUScheduler {
         int currentTime = 0;
 
         while (!processesList.isEmpty()) {
-            // Update FCAI Factor for all processes
             for (Process process : processesList) {
                 process.remainingBurstTime = process.BurstTime; // Update remaining burst time
             }
 
-            // Sort processes by FCAI Factor
             processesList.sort(Comparator.comparingDouble(p -> p.calculateFCAIFactor(V1, V2)));
 
-            // Select the process with the highest FCAI Factor
             Process selectedProcess = processesList.get(0);
             if (currentTime < selectedProcess.arrivalTime) {
                 currentTime = selectedProcess.arrivalTime;
             }
 
-            // Calculate waiting and turnaround times
             selectedProcess.waitingTime = currentTime - selectedProcess.arrivalTime;
             currentTime += selectedProcess.BurstTime;
             selectedProcess.turnaroundTime = currentTime - selectedProcess.arrivalTime;
@@ -141,7 +134,6 @@ public class CPUScheduler {
             // Remove the completed process
             processesList.remove(selectedProcess);
 
-            // Add context switch time
             currentTime += contextSwitchTime;
         }
     }
