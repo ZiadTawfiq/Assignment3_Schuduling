@@ -88,7 +88,63 @@ public class CPUScheduler {
 
 
     }
+        // Calculate V1
+    public double calculateV1(List<Process> processesList) {
+        int maxArrivalTime = processesList.stream()
+                .mapToInt(p -> p.arrivalTime)
+                .max()
+                .orElse(0);
+        return (double) maxArrivalTime / 10;
+    }
 
+    // Calculate V2
+    public double calculateV2(List<Process> processesList) {
+        int maxBurstTime = processesList.stream()
+                .mapToInt(p -> p.BurstTime)
+                .max()
+                .orElse(0);
+        return (double) maxBurstTime / 10;
+    }
+
+    // FCAI Scheduler
+    
+    public void FCAIScheduler(List<Process> processesList, int contextSwitchTime) {
+         System.out.println("--------------------------------");
+        System.out.println("Starting FCAI Scheduling...");
+        double V1 = calculateV1(processesList);
+        double V2 = calculateV2(processesList);
+
+        int currentTime = 0;
+
+        while (!processesList.isEmpty()) {
+            // Update FCAI Factor for all processes
+            for (Process process : processesList) {
+                process.remainingBurstTime = process.BurstTime; // Update remaining burst time
+            }
+
+            // Sort processes by FCAI Factor
+            processesList.sort(Comparator.comparingDouble(p -> p.calculateFCAIFactor(V1, V2)));
+
+            // Select the process with the highest FCAI Factor
+            Process selectedProcess = processesList.get(0);
+            if (currentTime < selectedProcess.arrivalTime) {
+                currentTime = selectedProcess.arrivalTime;
+            }
+
+            // Calculate waiting and turnaround times
+            selectedProcess.waitingTime = currentTime - selectedProcess.arrivalTime;
+            currentTime += selectedProcess.BurstTime;
+            selectedProcess.turnaroundTime = currentTime - selectedProcess.arrivalTime;
+            System.out.println("Executing Process: " + selectedProcess.processName);
+            System.out.println("FCAI Factor: " + selectedProcess.calculateFCAIFactor(V1, V2));
+           
+            // Remove the completed process
+            processesList.remove(selectedProcess);
+
+            // Add context switch time
+            currentTime += contextSwitchTime;
+        }
+    }
 
 
 
