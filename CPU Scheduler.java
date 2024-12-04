@@ -4,7 +4,7 @@ public class CPUScheduler {
 
     public void SJF(List<Process>ProcessList){
 
-         int currentTime = 0;
+        int currentTime = 0;
         int totalTurnaroundTime = 0;
         int totalWaitingTime = 0 ;
         int agingThreshold = 10;
