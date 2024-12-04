@@ -151,6 +151,94 @@ public class CPUScheduler {
         }
     }
 
+    public void SRTFScheduler(List<Process> ProcessList, int contextSwitchTime) {
+        int size = ProcessList.size();
+        System.out.println("--------------------------------");
+        System.out.println("SRTF Scheduling: ");
+        int currentTime = 0;
+        int completedProcesses = 0;
+        boolean[] isCompleted = new boolean[size];
+
+        for (Process process : ProcessList) {
+            process.remainingBurstTime = process.BurstTime;
+            process.waitingTime = 0;
+        }
+
+        int totalWaitingTime = 0;
+        int totalTurnaroundTime = 0;
+        Process prevShortestProcess = null;
+        Process shortestProcess = null;
+
+        // starvation handle
+        final int MAX_WT = 100;
+        final int AGE_INC = 2;
+
+        while (completedProcesses < size) {
+            prevShortestProcess = shortestProcess;
+            shortestProcess = null;
+
+            // shortest remaining time
+            for (Process p : ProcessList) {
+                if (!isCompleted[ProcessList.indexOf(p)] && p.arrivalTime <= currentTime) {
+                    if (shortestProcess == null || p.remainingBurstTime < shortestProcess.remainingBurstTime) {
+                        shortestProcess = p;
+                    }
+                }
+            }
+
+            // for starvation handle
+            for (Process p : ProcessList) {
+                if (!isCompleted[ProcessList.indexOf(p)] && p != shortestProcess && p.arrivalTime <= currentTime) {
+                    p.waitingTime++;
+
+                    if (p.waitingTime > MAX_WT) {
+                        currentTime += contextSwitchTime;
+                        p.remainingBurstTime = Math.max(1, p.remainingBurstTime - AGE_INC);
+                        p.waitingTime = 0;
+                    }
+                }
+            }
+
+            if (prevShortestProcess != null && completedProcesses < size && prevShortestProcess != shortestProcess) {
+                currentTime += contextSwitchTime;
+            }
+
+            if (shortestProcess != null) {
+
+                shortestProcess.remainingBurstTime--;
+                currentTime++;
+
+                // process is completed
+                if (shortestProcess.remainingBurstTime == 0) {
+                    isCompleted[ProcessList.indexOf(shortestProcess)] = true;
+                    completedProcesses++;
+
+                    shortestProcess.turnaroundTime = currentTime - shortestProcess.arrivalTime;
+                    shortestProcess.waitingTime = shortestProcess.turnaroundTime - shortestProcess.BurstTime;
+
+                    totalWaitingTime += shortestProcess.waitingTime;
+                    totalTurnaroundTime += shortestProcess.turnaroundTime;
+                }
+            } else {
+                currentTime++;
+                System.out.println("No process in ready qeue at time " + currentTime);
+            }
+        }
+
+        System.out.println("Final Results:");
+        for (Process p : ProcessList) {
+            System.out.println("Process " + p.processName + ", Waiting Time: " + p.waitingTime + ", Turnaround Time: "
+                    + p.turnaroundTime);
+
+        }
+
+        double avgWaitingTime = (double) totalWaitingTime / size;
+        double avgTurnaroundTime = (double) totalTurnaroundTime / size;
+        System.out.println("Average Waiting Time: " + avgWaitingTime);
+        System.out.println("Average Turnaround Time: " + avgTurnaroundTime);
+    }
+
+
 
 
 }
