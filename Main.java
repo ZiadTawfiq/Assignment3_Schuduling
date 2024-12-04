@@ -34,7 +34,8 @@ public class Main {
 
             CPUScheduler cpuScheduler = new CPUScheduler() ;
             cpuScheduler.SJF(processList);
-           cpuScheduler.FCAIScheduler(processList, contextSwitchTime);
+           cpuScheduler.SRTFScheduler(processList, contextSwitchTime);
+            cpuScheduler.FCAIScheduler(processList, contextSwitchTime);
         }
     }
 }
