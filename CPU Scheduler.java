@@ -4,9 +4,11 @@ public class CPUScheduler {
 
     public void SJF(List<Process>ProcessList){
 
-        int currentTime = 0;
+         int currentTime = 0;
         int totalTurnaroundTime = 0;
         int totalWaitingTime = 0 ;
+        int agingThreshold = 10;
+        int maxAge = 20;
 
         ProcessList.sort(Comparator.comparingInt(p -> p.BurstTime));
 
@@ -15,6 +17,16 @@ public class CPUScheduler {
         for (Process process : ProcessList) {
             if (currentTime < process.arrivalTime) {
                 currentTime = process.arrivalTime;
+            }
+            if (process.age >= agingThreshold) {
+                process.BurstTime = process.BurstTime - 1;
+                process.age = 0;
+            } else {
+                process.age += process.BurstTime;
+            }
+
+            if (process.age > maxAge) {
+                process.age = maxAge;
             }
 
             process.waitingTime = currentTime - process.arrivalTime;
@@ -25,6 +37,7 @@ public class CPUScheduler {
             totalTurnaroundTime += process.turnaroundTime;
 
             System.out.println(process + ", WaitingTime: " + process.waitingTime + ", Turnaround Time: " + process.turnaroundTime + '}');
+
         }
 
         int numProcesses = ProcessList.size();
