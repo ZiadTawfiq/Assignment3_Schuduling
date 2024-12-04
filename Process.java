@@ -6,6 +6,7 @@ public class Process {
     int PriorityNum;
     int waitingTime = 0;
     int turnaroundTime = 0;
+    int age ; 
     int remainingBurstTime;
 
     public Process(String processName, int arrivalTime, int burstTime, int priorityNum) {
@@ -13,6 +14,7 @@ public class Process {
         this.arrivalTime = arrivalTime;
         this.BurstTime = burstTime;
         this.PriorityNum = priorityNum;
+        this.age = 0 ;
         this.remainingBurstTime = burstTime; // Initialize remainingBurstTime
     }
 
