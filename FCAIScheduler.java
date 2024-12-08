@@ -52,7 +52,7 @@ class FCAIScheduler {
                 execute();
 
                 for (Process d : ready) {
-                    System.out.println(d.processName);
+                    System.out.println(d.processID);
                 }
                 System.out.println("-------------------------------");
 
@@ -71,7 +71,7 @@ class FCAIScheduler {
         System.out.println("###################");
 
         for (Process s : CPU) {
-            System.out.println(s.processName);
+            System.out.println(s.processID);
         }
         System.out.println("###################");
 
@@ -83,7 +83,7 @@ class FCAIScheduler {
         }
 
         if (selectedProcess != null) {
-            System.out.println("Selected process: " + selectedProcess.processName +
+            System.out.println("Selected process: " + selectedProcess.processID +
                     " (FCAI Factor: " + selectedProcess.FCAIFactor + ")");
         }
         return selectedProcess;
@@ -104,7 +104,7 @@ class FCAIScheduler {
         }
 
         if (selectedProcess != null) {
-            System.out.println("Selected process for preemption: " + selectedProcess.processName +
+            System.out.println("Selected process for preemption: " + selectedProcess.processID +
                     " (FCAI Factor: " + selectedProcess.FCAIFactor + ")");
         }
         return selectedProcess;
@@ -118,7 +118,7 @@ class FCAIScheduler {
         }
     
         Process p = CPU.get(0);
-        System.out.println("Currently executing " + p.processName);
+        System.out.println("Currently executing " + p.processID);
     
         int temp2 = p.Quantum;
         int executionTime = (int) Math.min(Math.ceil(0.4 * p.Quantum), p.remainingBurstTime);
@@ -154,7 +154,7 @@ class FCAIScheduler {
                 ready.add(p);
                 CPU.remove(p);
                 CPU.add(preemptingProcess);
-                System.out.println("Preempting process added to CPU: " + preemptingProcess.processName);
+                System.out.println("Preempting process added to CPU: " + preemptingProcess.processID);
             }
         }
     
@@ -168,7 +168,7 @@ class FCAIScheduler {
             for (int q : p.quantumHistory) {
                 System.out.println(q);
             }
-            System.out.println(p.processName + " done");
+            System.out.println(p.processID + " done");
         }
         
     
@@ -208,14 +208,14 @@ class FCAIScheduler {
             if (p1 != null && p1.remainingBurstTime > 0 &&
                     p1.FCAIFactor < currentProcess.FCAIFactor &&
                     p1.arrivalTime <= currentTime &&
-                    !p1.processName.equals(currentProcess.processName)) {
-                System.out.println("Preemption found: " + p1.processName +
+                    p1.processID != currentProcess.processID) {
+                System.out.println("Preemption found: " + p1.processID +
                         " with FCAI " + p1.FCAIFactor +
-                        " preempts " + currentProcess.processName);
+                        " preempts " + currentProcess.processID);
                 return true;
             }
         }
-        System.out.println("No preemption for process: " + currentProcess.processName);
+        System.out.println("No preemption for process: " + currentProcess.processID);
         return false;
     }
 

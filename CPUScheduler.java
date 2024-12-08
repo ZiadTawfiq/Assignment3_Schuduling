@@ -36,7 +36,7 @@ public class CPUScheduler {
             process.turnaroundTime = currentTime - process.arrivalTime;
             totalTurnaroundTime += process.turnaroundTime;
 
-             System.out.println("Process "+process.processName + "\t" + "Arrival Time = "+ process.arrivalTime + "\t" +"Brust Time = "+ process.BurstTime + "\t" +
+             System.out.println("Process "+process.processID + "\t" + "Arrival Time = "+ process.arrivalTime + "\t" +"Brust Time = "+ process.BurstTime + "\t" +
                     "Priority = "+ process.PriorityNum + "\t" +"Waiting Time = "+ process.waitingTime + "\t" + "TurnAround Time = " +process.turnaroundTime);
 
         }
@@ -87,7 +87,7 @@ public class CPUScheduler {
 
         double totalWaitingTime = 0, totalTurnAroundTime = 0;
         for (Process p : executedProcesses) {
-            System.out.println("Process "+p.processName + "\t" + "Arrival Time = "+ p.arrivalTime + "\t" +"Brust Time = "+ p.BurstTime + "\t" +
+            System.out.println("Process "+p.processID + "\t" + "Arrival Time = "+ p.arrivalTime + "\t" +"Brust Time = "+ p.BurstTime + "\t" +
                     "Priority = "+ p.PriorityNum + "\t" +"Waiting Time = "+ p.waitingTime + "\t" + "TurnAround Time = " +p.turnaroundTime);
             totalWaitingTime += p.waitingTime;
             totalTurnAroundTime += p.turnaroundTime;
@@ -195,7 +195,7 @@ public class CPUScheduler {
 
         System.out.println("Final Results:");
         for (Process p : ProcessList) {
-           System.out.println("Process "+p.processName + "\t" + "Arrival Time = "+ p.arrivalTime + "\t" +"Brust Time = "+ p.BurstTime + "\t" +
+           System.out.println("Process "+p.processID + "\t" + "Arrival Time = "+ p.arrivalTime + "\t" +"Brust Time = "+ p.BurstTime + "\t" +
                     "Priority = "+ p.PriorityNum + "\t" +"Waiting Time = "+ p.waitingTime + "\t" + "TurnAround Time = " +p.turnaroundTime);
         }
 
