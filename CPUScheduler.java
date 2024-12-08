@@ -117,39 +117,6 @@ public class CPUScheduler {
         return (double) maxBurstTime / 10;
     }
 
-    
-    public void FCAIScheduler(List<Process> processesList, int contextSwitchTime) {
-         System.out.println("--------------------------------");
-        System.out.println("Starting FCAI Scheduling...");
-        double V1 = calculateV1(processesList);
-        double V2 = calculateV2(processesList);
-
-        int currentTime = 0;
-
-        while (!processesList.isEmpty()) {
-            for (Process process : processesList) {
-                process.remainingBurstTime = process.BurstTime; // Update remaining burst time
-            }
-
-            processesList.sort(Comparator.comparingDouble(p -> p.calculateFCAIFactor(V1, V2)));
-
-            Process selectedProcess = processesList.get(0);
-            if (currentTime < selectedProcess.arrivalTime) {
-                currentTime = selectedProcess.arrivalTime;
-            }
-
-            selectedProcess.waitingTime = currentTime - selectedProcess.arrivalTime;
-            currentTime += selectedProcess.BurstTime;
-            selectedProcess.turnaroundTime = currentTime - selectedProcess.arrivalTime;
-            System.out.println("Executing Process: " + selectedProcess.processName);
-            System.out.println("FCAI Factor: " + selectedProcess.calculateFCAIFactor(V1, V2));
-           
-            // Remove the completed process
-            processesList.remove(selectedProcess);
-
-            currentTime += contextSwitchTime;
-        }
-    }
 
     public void SRTFScheduler(List<Process> ProcessList, int contextSwitchTime) {
         int size = ProcessList.size();

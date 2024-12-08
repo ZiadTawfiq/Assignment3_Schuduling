@@ -1,25 +1,47 @@
+import java.util.ArrayList;
+import java.util.List;
 
 public class Process {
     String processName;
     int arrivalTime;
     int BurstTime;
     int PriorityNum;
+    int age;
     int waitingTime = 0;
     int turnaroundTime = 0;
-    int age ; 
     int remainingBurstTime;
+    int completionTime;
+    int Quantum ;
+    double FCAIFactor;
 
-    public Process(String processName, int arrivalTime, int burstTime, int priorityNum) {
+    public List<Integer> quantumHistory = new ArrayList<>();
+
+
+    public Process(String processName, int arrivalTime, int burstTime, int priorityNum , int Quantum) {
         this.processName = processName;
         this.arrivalTime = arrivalTime;
         this.BurstTime = burstTime;
         this.PriorityNum = priorityNum;
-        this.age = 0 ;
-        this.remainingBurstTime = burstTime; // Initialize remainingBurstTime
+        this.remainingBurstTime = burstTime;
+        this.Quantum = Quantum;
+        quantumHistory.add(Quantum);
     }
 
-    public double calculateFCAIFactor(double V1, double V2) {
-        return (10 - this.PriorityNum) + (this.arrivalTime / V1) + (this.remainingBurstTime / V2);
+    public void calculateFCAIFactor(double V1, double V2) {
+        
+        this.FCAIFactor = (Math.ceil(10 - this.PriorityNum) + Math.ceil(this.arrivalTime / V1) + Math.ceil(this.remainingBurstTime / V2));
+    }
+    public void adjustQuantum(boolean isPreempted, int unusedQuantum) {
+        if (isPreempted) {
+            this.Quantum += unusedQuantum; 
+        } else {
+            this.Quantum += 2;
+        }
+    }
+
+
+    public void logQuantum() {
+        quantumHistory.add(this.Quantum);
     }
 
     @Override

@@ -17,20 +17,23 @@ public class Main {
             List<Process> processList = new ArrayList<>();
             for (int i = 1; i <= n; i++) {
                 System.out.println("Enter details for Process " + i + ":");
-                System.out.print("Enter Process Name: ");
-                String ProcessName = scanner.next() ;
+                System.out.println("Enter Process Name");
+                String ProcessName = scanner.next() ;                
                 System.out.print("Arrival Time: ");
                 int arrivalTime = scanner.nextInt();
                 System.out.print("Burst Time: ");
                 int BurstTime = scanner.nextInt();
                 System.out.print("Priority: ");
                 int Priority = scanner.nextInt();
+                System.out.print("Quantum: ");
+                int Quantum = scanner.nextInt();
                 System.out.print("---------------------------\n");
-                Process process = new Process(ProcessName  , arrivalTime ,BurstTime, Priority) ;
+                Process process = new Process(ProcessName  , arrivalTime ,BurstTime, Priority, Quantum) ;
                 processList.add(process) ;
 
 
             }
+
 
 
             CPUScheduler cpuScheduler = new CPUScheduler() ;
@@ -57,7 +60,8 @@ public class Main {
                         cpuScheduler.SRTFScheduler(processList, contextSwitchTime);
                         break;
                     case 4:
-                        cpuScheduler.FCAIScheduler(processList, contextSwitchTime);
+                        FCAIScheduler f = new FCAIScheduler(processList);
+                        f.schedule();
                         break;
                     case 5:
                         running = false;
