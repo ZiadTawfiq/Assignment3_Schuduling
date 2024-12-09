@@ -74,9 +74,7 @@ class FCAIScheduler {
                 
                 System.out.println("-------------------------------");
 
-                for (Process f : CPU) {
-                    System.out.println(f);
-                }
+                
             } 
              // Increment time if no process is ready
 
