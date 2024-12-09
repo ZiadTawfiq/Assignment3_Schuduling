@@ -17,8 +17,8 @@ public class Main {
             List<Process> processList = new ArrayList<>();
             for (int i = 1; i <= n; i++) {
                 System.out.println("Enter details for Process " + i + ":");
-                System.out.println("Enter Process Name");
-                String ProcessName = scanner.next() ;                
+//                System.out.print("Enter Process Name: ");
+//                String ProcessName = scanner.next() ;
                 System.out.print("Arrival Time: ");
                 int arrivalTime = scanner.nextInt();
                 System.out.print("Burst Time: ");
@@ -28,7 +28,7 @@ public class Main {
                 System.out.print("Quantum: ");
                 int Quantum = scanner.nextInt();
                 System.out.print("---------------------------\n");
-                Process process = new Process(ProcessName  , arrivalTime ,BurstTime, Priority, Quantum) ;
+                Process process = new Process( i , arrivalTime ,BurstTime, Priority, Quantum) ;
                 processList.add(process) ;
 
 
@@ -57,7 +57,8 @@ public class Main {
                         cpuScheduler.priorityScheduler(processList, contextSwitchTime);
                         break;
                     case 3:
-                        cpuScheduler.SRTFScheduler(processList, contextSwitchTime);
+                          cpuScheduler.SRTFScheduler(processList,contextSwitchTime);
+                     //   cpuScheduler.SRTFScheduler(processList , contextSwitchTime);
                         break;
                     case 4:
                         FCAIScheduler f = new FCAIScheduler(processList);
