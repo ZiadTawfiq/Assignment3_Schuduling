@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Process {
-    int processID;
+    String processName;
     int arrivalTime;
     int BurstTime;
     int PriorityNum;
@@ -17,8 +17,8 @@ public class Process {
     public List<Integer> quantumHistory = new ArrayList<>();
 
 
-    public Process(int processID, int arrivalTime, int burstTime, int priorityNum , int Quantum) {
-        this.processID = processID;
+    public Process(String processName, int arrivalTime, int burstTime, int priorityNum , int Quantum) {
+        this.processName = processName;
         this.arrivalTime = arrivalTime;
         this.BurstTime = burstTime;
         this.PriorityNum = priorityNum;
@@ -46,6 +46,6 @@ public class Process {
 
     @Override
     public String toString() {
-        return "{Process Name: " + processID + ", BurstTime: " + BurstTime + "}";
+        return "{Process Name: " + processName + ", BurstTime: " + BurstTime + "}";
     }
 }
